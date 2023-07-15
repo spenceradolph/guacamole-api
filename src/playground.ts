@@ -12,6 +12,11 @@ import Guacamole from './guacamole';
 		password: 'guacadmin',
 	});
 
-	const users = await session.list_users();
-	console.log(`${JSON.stringify(users, null, 4)}`);
+	// const result = await session.list_schema_users();
+	// console.log(`${JSON.stringify(result, null, 4)}`);
+
+	// const result = await session.create_user('test1user', 'test1pass');
+	// console.log(`${JSON.stringify(result, null, 4)}`);
+
+	await session.update_user('testtest', { 'guac-organization': 'testorg' });
 })();
