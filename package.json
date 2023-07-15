@@ -2,11 +2,13 @@
   "name": "guacamole-api",
   "license": "MIT",
   "version": "0.0.1",
+  "private": false,
   "main": "dist/index.js",
   "module": "dist/index.mjs",
   "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsup index.ts --format cjs,esm --dts",
+    "release": "pnpm run build && changeset publish",
     "lint": "tsc"
   },
   "devDependencies": {
