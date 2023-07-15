@@ -1,5 +1,11 @@
 # guacamole-api
 
+## 0.0.4
+
+### Patch Changes
+
+- 371f336: Added Initial Guacamole Api Functionality
+
 ## 0.0.3
 
 ### Patch Changes
