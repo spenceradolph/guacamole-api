@@ -24,6 +24,6 @@
 		"semi": true,
 		"useTabs": true,
 		"singleQuote": true,
-		"printWidth": 140
+		"printWidth": 160
 	}
 }

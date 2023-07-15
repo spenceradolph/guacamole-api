@@ -30,11 +30,7 @@ export default class Guacamole {
 	 */
 	static session = async ({ host, username, password, datasource }: SessionOptions) => {
 		// TODO: add try/catch or throw errors if username/password is incorrect
-		const { data } = await axios.post(
-			`${host}/api/tokens`,
-			{ username, password },
-			{ headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
-		);
+		const { data } = await axios.post(`${host}/api/tokens`, { username, password }, { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } });
 
 		return new Session(host, datasource, data.authToken);
 	};
@@ -54,6 +50,8 @@ class Session {
 		this.token = token; // provided by Guacamole class static function
 	}
 
+	// Helpers (automatically add the token to the request, and forward generic for optional return typing)
+	// Also destruct the data out of the response and return it
 	private authGet = async <GenericReturnType>(endpoint: string) => {
 		const { data } = await axios.get<GenericReturnType>(`${this.host}${endpoint}`, { params: { token: this.token } });
 		return data;
@@ -79,102 +77,65 @@ class Session {
 		return data;
 	};
 
-	list_schema_users = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/schema/userAttributes`);
-	};
-
-	list_schema_groups = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/schema/userGroupAttributes`);
-	};
-
-	list_schema_connections = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/schema/connectionAttributes`);
-	};
-
-	list_schema_sharing = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/schema/sharingProfileAttributes`);
-	};
-
-	list_schema_connection_group = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/schema/connectionGroupAttributes`);
-	};
-
-	list_schema_protocols = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/schema/protocols`);
-	};
-
-	list_patches = async () => {
-		return await this.authGet(`/api/patches`);
-	};
-
-	list_languages = async () => {
-		return await this.authGet(`/api/languages`);
-	};
-
-	detail_extensions = async () => {
-		return await this.authGet(`/api/session/ext/${this.datasource}`);
-	};
-
-	list_history_users = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/history/users`);
-	};
-
-	list_history_connections = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/history/connections`);
-	};
+	// TODO: add return types
+	list_schema_users = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/userAttributes`);
+	list_schema_groups = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/userGroupAttributes`);
+	list_schema_connections = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/connectionAttributes`);
+	list_schema_sharing = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/sharingProfileAttributes`);
+	list_schema_connection_group = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/connectionGroupAttributes`);
+	list_schema_protocols = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/protocols`);
+	list_patches = async () => await this.authGet(`/api/patches`);
+	list_languages = async () => await this.authGet(`/api/languages`);
+	detail_extensions = async () => await this.authGet(`/api/session/ext/${this.datasource}`);
+	list_history_users = async () => await this.authGet(`/api/session/data/${this.datasource}/history/users`);
+	list_history_connections = async () => await this.authGet(`/api/session/data/${this.datasource}/history/connections`);
+	detail_user = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}`);
+	detail_user_permissions = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/permissions`);
+	detail_user_effective_permissions = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/effectivePermissions`);
+	detail_user_groups = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/userGroups`);
+	detail_user_history = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/history`);
+	detail_self = async () => await this.authGet(`/api/session/data/${this.datasource}/self`);
+	delete_user = async (user: string) => await this.authDelete(`/api/session/data/${this.datasource}/users/${user}`);
+	list_usergroups = async () => await this.authGet(`/api/session/data/${this.datasource}/userGroups`);
+	detail_usergroup = async (groupname: string) => await this.authGet(`/api/session/data/${this.datasource}/userGroups/${groupname}`);
+	delete_usergroup = async (id: string) => await this.authDelete(`/api/session/data/${this.datasource}/userGroups/${id}`);
+	list_tunnels = async () => await this.authGet(`/api/session/tunnels`);
+	detail_tunnels = async (tunId: number) => await this.authGet(`/api/session/tunnels/${tunId}/activeConnection/connection/sharingProfiles`);
+	list_connections = async () => await this.authGet(`/api/session/data/${this.datasource}/connections`);
+	list_active_connections = async () => await this.authGet(`/api/session/data/${this.datasource}/activeConnections`);
+	list_sharing_profile = async () => await this.authGet(`/api/session/data/${this.datasource}/sharingProfiles`);
+	details_sharing_profile = async (sharingId: number) => await this.authGet(`/api/session/data/${this.datasource}/sharingProfiles/${sharingId}`);
+	delete_sharing_profile = async (id: number) => await this.authDelete(`/api/session/data/${this.datasource}/sharingProfiles/${id}`);
+	delete_connection = async (id: number) => await this.authDelete(`/api/session/data/${this.datasource}/connections/${id}`);
+	list_connection_groups = async () => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups`);
+	list_connection_group_connections = async () => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups/ROOT/tree`);
+	details_connection_group = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups/${id}`);
+	details_connection_group_connections = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups/${id}/tree`);
+	delete_connection_group = async (group: string) => await this.authDelete(`/api/session/data/${this.datasource}/connectionGroups/${group}`);
+	detail_connection = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}`);
+	detail_connection_parameters = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}/parameters`);
+	detail_connection_history = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}/history`);
+	detail_connection_sharing = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}/sharingProfiles`);
 
 	list_users = async () => {
-		type ListUsersResponse = {
+		return await this.authGet<{
 			[username: string]: {
 				username: string;
 				attributes: UserAttributes;
 				lastActive: number;
 			};
-		};
-		return await this.authGet<ListUsersResponse>(`/api/session/data/${this.datasource}/users`);
-	};
-
-	detail_user = async (username: string) => {
-		return await this.authGet(`/api/session/data/${this.datasource}/users/${username}`);
-	};
-
-	detail_user_permissions = async (username: string) => {
-		return await this.authGet(`/api/session/data/${this.datasource}/users/${username}/permissions`);
-	};
-
-	detail_user_effective_permissions = async (username: string) => {
-		return await this.authGet(`/api/session/data/${this.datasource}/users/${username}/effectivePermissions`);
-	};
-
-	detail_user_groups = async (username: string) => {
-		return await this.authGet(`/api/session/data/${this.datasource}/users/${username}/userGroups`);
-	};
-
-	detail_user_history = async (username: string) => {
-		return await this.authGet(`/api/session/data/${this.datasource}/users/${username}/history`);
-	};
-
-	detail_self = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/self`);
+		}>(`/api/session/data/${this.datasource}/users`);
 	};
 
 	create_user = async (username: string, password: string, attributes?: UserAttributes) => {
-		return await this.authPost(`/api/session/data/${this.datasource}/users`, {
+		return await this.authPost<{
+			username: string;
+			password: string;
+			attributes: UserAttributes;
+		}>(`/api/session/data/${this.datasource}/users`, {
 			username,
 			password,
-			attributes: {
-				disabled: '', // TODO: get these attributes from function parameters (with types)
-				expired: '',
-				'access-window-start': '',
-				'access-window-end': '',
-				'valid-from': '',
-				'valid-until': '',
-				timezone: '',
-				'guac-full-name': '',
-				'guac-email-address': '',
-				'guac-organization': '',
-				'guac-organizational-role': '',
-			},
+			attributes: attributes ?? {},
 		});
 	};
 
@@ -192,29 +153,33 @@ class Session {
 		});
 	};
 
-	update_user_group = async (username: string, action: 'add' | 'remove', groupname: string) => {
+	add_user_group = async (username: string, groupname: string) => {
 		return await this.authPatch(`/api/session/data/${this.datasource}/users/${username}/userGroups`, {
-			op: action,
+			op: 'add',
 			path: '/',
 			value: groupname,
 		});
 	};
 
-	delete_user = async (username: string) => {
-		return await this.authDelete(`/api/session/data/${this.datasource}/users/${username}`);
+	remove_user_group = async (username: string, groupname: string) => {
+		return await this.authPatch(`/api/session/data/${this.datasource}/users/${username}/userGroups`, {
+			op: 'remove',
+			path: '/',
+			value: groupname,
+		});
 	};
 
-	list_usergroups = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/userGroups`);
-	};
-
-	detail_usergroup = async (groupname: string) => {
-		return await this.authGet(`/api/session/data/${this.datasource}/userGroups/${groupname}`);
-	};
-
-	update_usergroup_member = async (username: string, groupname: string, operation: 'add' | 'remove') => {
+	add_usergroup_member = async (username: string, groupname: string) => {
 		return await this.authPatch(`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`, {
-			op: operation,
+			op: 'add',
+			path: '/',
+			value: username,
+		});
+	};
+
+	remove_usergroup_member = async (username: string, groupname: string, operation: 'add' | 'remove') => {
+		return await this.authPatch(`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`, {
+			op: 'remove',
 			path: '/',
 			value: username,
 		});
@@ -234,52 +199,23 @@ class Session {
 		});
 	};
 
-	delete_usergroup = async (identifier: string) => {
-		return await this.authDelete(`/api/session/data/${this.datasource}/userGroups/${identifier}`);
+	kill_active_connection = async (connection_id: string) => {
+		return await this.authPatch(`/api/session/data/${this.datasource}/activeConnections`, {
+			op: 'remove',
+			path: `/${connection_id}`,
+		});
 	};
-
-	list_tunnels = async () => {
-		return await this.authGet(`/api/session/tunnels`);
-	};
-
-	detail_tunnels = async (tunnelId: number) => {
-		return await this.authGet(`/api/session/tunnels/${tunnelId}/activeConnection/connection/sharingProfiles`);
-	};
-
-	list_connections = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/connections`);
-	};
-
-	list_active_connections = async () => {
-		return await this.authGet(`/api/session/data/${this.datasource}/activeConnections`);
-	};
-
-	// create_ssh_connection = async () => {
-	//     return await this.authPost(``, {
-
-	//     });
-	// }
 
 	// TODO: the rest of these...(and possibly more not known about...)
+	// create / manage / update things
 	update_user_connection = async (username: string) => {};
-	update_user_permissions = async () => {};
-	update_usergroup_membergroup = async () => {};
-	update_usergroup_parentgroup = async () => {};
-	update_usergroup_permissions = async () => {};
-	update_usergroup_connection = async () => {};
-	detail_connection = async () => {};
-	kill_active_connection = async () => {};
+	update_user_permissions = async (username: string) => {};
+	update_usergroup_membergroup = async (usergroup: string) => {};
+	update_usergroup_parentgroup = async (usergroup: string) => {};
+	update_usergroup_permissions = async (usergroup: string) => {};
+	update_usergroup_connection = async (usergroup: string) => {};
 	manage_connection = async () => {};
-	delete_connection = async () => {};
-	list_connection_groups = async () => {};
-	list_connection_group_connections = async () => {};
-	details_connection_group = async () => {};
-	details_connection_group_connections = async () => {};
 	create_connection_group = async () => {};
 	update_connection_group = async () => {};
-	delete_connection_group = async () => {};
-	list_sharing_profile = async () => {};
-	details_sharing_profile = async () => {};
 	create_sharing_profile = async () => {};
-	delete_sharing_profile = async () => {};
 }

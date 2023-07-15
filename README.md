@@ -1,8 +1,10 @@
 # guacamole-api
 
-This is a simple package that allows easier access to Apache Guacamole and its api.
+This is a simple package that allows easier access to Apache Guacamole and its rest api.
 
 Inspired heavily from the python [guacamole-api-wrapper](https://gitlab.com/gacybercenter/open/guacamole-api-wrapper), but in typescript.
+
+Also referencing this [Unofficial Documentation](https://github.com/ridvanaltun/guacamole-rest-api-documentation).
 
 > :warning: Not heavily tested.
 

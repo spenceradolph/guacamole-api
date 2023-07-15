@@ -15,8 +15,9 @@ import Guacamole from './guacamole';
 	// const result = await session.list_schema_users();
 	// console.log(`${JSON.stringify(result, null, 4)}`);
 
-	// const result = await session.create_user('test1user', 'test1pass');
-	// console.log(`${JSON.stringify(result, null, 4)}`);
+	// const result = await session.create_user('test45user', 'test3pass', { 'guac-full-name': 'fullnametest5' });
+	const result = await session.create_user('test6user', 'test3pass', { 'guac-full-name': 'testfull' });
+	console.log(`${JSON.stringify(result, null, 4)}`);
 
-	await session.update_user('testtest', { 'guac-organization': 'testorg' });
+	// await session.update_user('testtest', { 'guac-organization': 'testorg' });
 })();
