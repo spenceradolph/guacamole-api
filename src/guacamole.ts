@@ -21,6 +21,178 @@ type UserAttributes = {
 	'valid-from'?: string | null;
 };
 
+type ConnectionAttributes = {
+	'max-connections'?: string | null;
+	'max-connections-per-user'?: string | null;
+	weight?: string | null;
+	'failover-only'?: string | null;
+	'guacd-port'?: string | null;
+	'guacd-encryption'?: string | null;
+	'guacd-hostname'?: string | null;
+};
+
+type SSHConnectionParameters = {
+	port?: string | null;
+	'read-only'?: string | null;
+	'swap-red-blue'?: string | null;
+	cursor?: string | null;
+	'color-depth'?: string | null;
+	'clipboard-encoding'?: string | null;
+	'disable-copy'?: string | null;
+	'disable-paste'?: string | null;
+	'dest-port'?: string | null;
+	'recording-exclude-output'?: string | null;
+	'recording-exclude-mouse'?: string | null;
+	'recording-include-keys'?: string | null;
+	'create-recording-path'?: string | null;
+	'enable-sftp'?: string | null;
+	'sftp-port'?: string | null;
+	'sftp-server-alive-interval'?: string | null;
+	'enable-audio'?: string | null;
+	'color-scheme'?: string | null;
+	'font-size'?: string | null;
+	scrollback?: string | null;
+	timezone?: string | null;
+	'server-alive-interval'?: string | null;
+	backspace?: string | null;
+	'terminal-type'?: string | null;
+	'create-typescript-path'?: string | null;
+	hostname?: string | null;
+	'host-key'?: string | null;
+	'private-key'?: string | null;
+	username?: string | null;
+	password?: string | null;
+	passphrase?: string | null;
+	'font-name'?: string | null;
+	command?: string | null;
+	locale?: string | null;
+	'typescript-path'?: string | null;
+	'typescript-name'?: string | null;
+	'recording-path'?: string | null;
+	'recording-name'?: string | null;
+	'sftp-root-directory'?: string | null;
+};
+
+type RDPConnectionParameters = {
+	port?: string | null;
+	'read-only'?: string | null;
+	'swap-red-blue'?: string | null;
+	cursor?: string | null;
+	'color-depth'?: string | null;
+	'clipboard-encoding'?: string | null;
+	'disable-copy'?: string | null;
+	'disable-paste'?: string | null;
+	'dest-port'?: string | null;
+	'recording-exclude-output'?: string | null;
+	'recording-exclude-mouse'?: string | null;
+	'recording-include-keys'?: string | null;
+	'create-recording-path'?: string | null;
+	'enable-sftp'?: string | null;
+	'sftp-port'?: string | null;
+	'sftp-server-alive-interval'?: string | null;
+	'enable-audio'?: string | null;
+	security?: string | null;
+	'disable-auth'?: string | null;
+	'ignore-cert'?: string | null;
+	'gateway-port'?: string | null;
+	'server-layout'?: string | null;
+	timezone?: string | null;
+	console?: string | null;
+	width?: string | null;
+	height?: string | null;
+	dpi?: string | null;
+	'resize-method'?: string | null;
+	'console-audio'?: string | null;
+	'disable-audio'?: string | null;
+	'enable-audio-input'?: string | null;
+	'enable-printing'?: string | null;
+	'enable-drive'?: string | null;
+	'create-drive-path'?: string | null;
+	'enable-wallpaper'?: string | null;
+	'enable-theming'?: string | null;
+	'enable-font-smoothing'?: string | null;
+	'enable-full-window-drag'?: string | null;
+	'enable-desktop-composition'?: string | null;
+	'enable-menu-animations'?: string | null;
+	'disable-bitmap-caching'?: string | null;
+	'disable-offscreen-caching'?: string | null;
+	'disable-glyph-caching'?: string | null;
+	'preconnection-id'?: string | null;
+	hostname?: string | null;
+	username?: string | null;
+	password?: string | null;
+	domain?: string | null;
+	'gateway-hostname'?: string | null;
+	'gateway-username'?: string | null;
+	'gateway-password'?: string | null;
+	'gateway-domain'?: string | null;
+	'initial-program'?: string | null;
+	'client-name'?: string | null;
+	'printer-name'?: string | null;
+	'drive-name'?: string | null;
+	'drive-path'?: string | null;
+	'static-channels'?: string | null;
+	'remote-app'?: string | null;
+	'remote-app-dir'?: string | null;
+	'remote-app-args'?: string | null;
+	'preconnection-blob'?: string | null;
+	'load-balance-info'?: string | null;
+	'recording-path'?: string | null;
+	'recording-name'?: string | null;
+	'sftp-hostname'?: string | null;
+	'sftp-host-key'?: string | null;
+	'sftp-username'?: string | null;
+	'sftp-password'?: string | null;
+	'sftp-private-key'?: string | null;
+	'sftp-passphrase'?: string | null;
+	'sftp-root-directory'?: string | null;
+	'sftp-directory'?: string | null;
+};
+
+type TelnetConnectionParameters = {
+	port?: string | null;
+	'read-only'?: string | null;
+	'swap-red-blue'?: string | null;
+	cursor?: string | null;
+	'color-depth'?: string | null;
+	'clipboard-encoding'?: string | null;
+	'disable-copy'?: string | null;
+	'disable-paste'?: string | null;
+	'dest-port'?: string | null;
+	'recording-exclude-output'?: string | null;
+	'recording-exclude-mouse'?: string | null;
+	'recording-include-keys'?: string | null;
+	'create-recording-path'?: string | null;
+	'enable-sftp'?: string | null;
+	'sftp-port'?: string | null;
+	'sftp-server-alive-interval'?: string | null;
+	'enable-audio'?: string | null;
+	'color-scheme'?: string | null;
+	'font-size'?: string | null;
+	scrollback?: string | null;
+	backspace?: string | null;
+	'terminal-type'?: string | null;
+	'create-typescript-path'?: string | null;
+	hostname?: string | null;
+	username?: string | null;
+	password?: string | null;
+	'username-regex'?: string | null;
+	'password-regex'?: string | null;
+	'login-success-regex'?: string | null;
+	'login-failure-regex'?: string | null;
+	'font-name'?: string | null;
+	'typescript-path'?: string | null;
+	'typescript-name'?: string | null;
+	'recording-path'?: string | null;
+	'recording-name'?: string | null;
+};
+
+type ConnectionGroupAttributes = {
+	'max-connections'?: string | null;
+	'max-connections-per-user'?: string | null;
+	'enable-session-affinity'?: string | null;
+};
+
 /**
  * Helper class to create guacamole sessions.
  */
@@ -153,7 +325,7 @@ class Session {
 		});
 	};
 
-	add_user_group = async (username: string, groupname: string) => {
+	user_add_group = async (username: string, groupname: string) => {
 		return await this.authPatch(`/api/session/data/${this.datasource}/users/${username}/userGroups`, {
 			op: 'add',
 			path: '/',
@@ -161,7 +333,7 @@ class Session {
 		});
 	};
 
-	remove_user_group = async (username: string, groupname: string) => {
+	user_remove_group = async (username: string, groupname: string) => {
 		return await this.authPatch(`/api/session/data/${this.datasource}/users/${username}/userGroups`, {
 			op: 'remove',
 			path: '/',
@@ -169,7 +341,7 @@ class Session {
 		});
 	};
 
-	add_usergroup_member = async (username: string, groupname: string) => {
+	group_add_user = async (username: string, groupname: string) => {
 		return await this.authPatch(`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`, {
 			op: 'add',
 			path: '/',
@@ -177,7 +349,7 @@ class Session {
 		});
 	};
 
-	remove_usergroup_member = async (username: string, groupname: string, operation: 'add' | 'remove') => {
+	group_remove_user = async (username: string, groupname: string) => {
 		return await this.authPatch(`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`, {
 			op: 'remove',
 			path: '/',
@@ -206,6 +378,105 @@ class Session {
 		});
 	};
 
+	create_ssh_connection = async (
+		name: string,
+		parameters: SSHConnectionParameters = {},
+		attributes: ConnectionAttributes = {},
+		parentIdentifier: string = 'ROOT'
+	) => {
+		return await this.authPost<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			protocol: 'ssh';
+			parameters: SSHConnectionParameters;
+			attributes: ConnectionAttributes;
+			activeConnections: number;
+		}>(`/api/session/data/${this.datasource}/connections`, {
+			name,
+			protocol: 'ssh',
+			parentIdentifier,
+			parameters,
+			attributes,
+		});
+	};
+
+	create_rdp_connection = async (
+		name: string,
+		parameters: RDPConnectionParameters = {},
+		attributes: ConnectionAttributes = {},
+		parentIdentifier: string = 'ROOT'
+	) => {
+		return await this.authPost<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			protocol: 'rdp';
+			parameters: RDPConnectionParameters;
+			attributes: ConnectionAttributes;
+			activeConnections: number;
+		}>(`/api/session/data/${this.datasource}/connections`, {
+			name,
+			protocol: 'rdp',
+			parentIdentifier,
+			parameters,
+			attributes,
+		});
+	};
+
+	create_telnet_connection = async (
+		name: string,
+		parameters: TelnetConnectionParameters = {},
+		attributes: ConnectionAttributes = {},
+		parentIdentifier: string = 'ROOT'
+	) => {
+		// TODO: consider using zod to verify results are what we think they are
+		return await this.authPost<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			protocol: 'telnet';
+			parameters: TelnetConnectionParameters;
+			attributes: ConnectionAttributes;
+			activeConnections: number;
+		}>(`/api/session/data/${this.datasource}/connections`, {
+			name,
+			protocol: 'rdp',
+			parentIdentifier,
+			parameters,
+			attributes,
+		});
+	};
+
+	create_connection_group = async (name: string, attributes: ConnectionGroupAttributes, parentIdentifier: string = 'ROOT') => {
+		return await this.authPost(`/api/session/data/${this.datasource}/connectionGroups`, {
+			name,
+			parentIdentifier,
+			type: 'ORGANIZATIONAL', // TODO: also could do 'balancing'
+			attributes,
+		});
+	};
+
+	create_sharing_profile = async (name: string, connectionId: number, readonly: boolean) => {
+		return await this.authPost(`/api/session/data/${this.datasource}/sharingProfiles`, {
+			name,
+			primaryConnectionIdentifier: connectionId,
+			parameters: {
+				'read-only': readonly ? 'true' : '',
+			},
+			attributes: {},
+		});
+	};
+
+	update_connection_group = async (id: number, name: string, attributes: ConnectionAttributes, parentIdentifier: string = 'ROOT') => {
+		return await this.authPut(`/api/session/data/${this.datasource}/connectionGroups/${id}`, {
+			name,
+			parentIdentifier,
+			type: 'ORGANIZATIONAL', // TODO: also could do 'balancing'
+			attributes,
+		});
+	};
+
 	// TODO: the rest of these...(and possibly more not known about...)
 	// create / manage / update things
 	update_user_connection = async (username: string) => {};
@@ -214,8 +485,4 @@ class Session {
 	update_usergroup_parentgroup = async (usergroup: string) => {};
 	update_usergroup_permissions = async (usergroup: string) => {};
 	update_usergroup_connection = async (usergroup: string) => {};
-	manage_connection = async () => {};
-	create_connection_group = async () => {};
-	update_connection_group = async () => {};
-	create_sharing_profile = async () => {};
 }
