@@ -1,5 +1,11 @@
 # guacamole-api
 
+## 0.0.5
+
+### Patch Changes
+
+- 4687a0a: added github link
+
 ## 0.0.4
 
 ### Patch Changes
