@@ -1,197 +1,18 @@
 import axios from 'axios';
-
-type SessionOptions = {
-	host: string;
-	datasource: string;
-	username: string;
-	password: string;
-};
-
-type UserAttributes = {
-	'guac-email-address'?: string | null;
-	'guac-organizational-role'?: string | null;
-	'guac-full-name'?: string | null;
-	expired?: string | null;
-	timezone?: string | null;
-	'access-window-start'?: string | null;
-	'guac-organization'?: string | null;
-	'access-window-end'?: string | null;
-	disabled?: string | null;
-	'valid-until'?: string | null;
-	'valid-from'?: string | null;
-};
-
-type ConnectionAttributes = {
-	'max-connections'?: string | null;
-	'max-connections-per-user'?: string | null;
-	weight?: string | null;
-	'failover-only'?: string | null;
-	'guacd-port'?: string | null;
-	'guacd-encryption'?: string | null;
-	'guacd-hostname'?: string | null;
-};
-
-type SSHConnectionParameters = {
-	port?: string | null;
-	'read-only'?: string | null;
-	'swap-red-blue'?: string | null;
-	cursor?: string | null;
-	'color-depth'?: string | null;
-	'clipboard-encoding'?: string | null;
-	'disable-copy'?: string | null;
-	'disable-paste'?: string | null;
-	'dest-port'?: string | null;
-	'recording-exclude-output'?: string | null;
-	'recording-exclude-mouse'?: string | null;
-	'recording-include-keys'?: string | null;
-	'create-recording-path'?: string | null;
-	'enable-sftp'?: string | null;
-	'sftp-port'?: string | null;
-	'sftp-server-alive-interval'?: string | null;
-	'enable-audio'?: string | null;
-	'color-scheme'?: string | null;
-	'font-size'?: string | null;
-	scrollback?: string | null;
-	timezone?: string | null;
-	'server-alive-interval'?: string | null;
-	backspace?: string | null;
-	'terminal-type'?: string | null;
-	'create-typescript-path'?: string | null;
-	hostname?: string | null;
-	'host-key'?: string | null;
-	'private-key'?: string | null;
-	username?: string | null;
-	password?: string | null;
-	passphrase?: string | null;
-	'font-name'?: string | null;
-	command?: string | null;
-	locale?: string | null;
-	'typescript-path'?: string | null;
-	'typescript-name'?: string | null;
-	'recording-path'?: string | null;
-	'recording-name'?: string | null;
-	'sftp-root-directory'?: string | null;
-};
-
-type RDPConnectionParameters = {
-	port?: string | null;
-	'read-only'?: string | null; // TODO: change this string into 'true' or ''
-	'swap-red-blue'?: string | null;
-	cursor?: string | null;
-	'color-depth'?: string | null;
-	'clipboard-encoding'?: string | null;
-	'disable-copy'?: string | null;
-	'disable-paste'?: string | null;
-	'dest-port'?: string | null;
-	'recording-exclude-output'?: string | null;
-	'recording-exclude-mouse'?: string | null;
-	'recording-include-keys'?: string | null;
-	'create-recording-path'?: string | null;
-	'enable-sftp'?: string | null;
-	'sftp-port'?: string | null;
-	'sftp-server-alive-interval'?: string | null;
-	'enable-audio'?: string | null;
-	security?: string | null;
-	'disable-auth'?: string | null;
-	'ignore-cert'?: string | null;
-	'gateway-port'?: string | null;
-	'server-layout'?: string | null;
-	timezone?: string | null;
-	console?: string | null;
-	width?: string | null;
-	height?: string | null;
-	dpi?: string | null;
-	'resize-method'?: string | null;
-	'console-audio'?: string | null;
-	'disable-audio'?: string | null;
-	'enable-audio-input'?: string | null;
-	'enable-printing'?: string | null;
-	'enable-drive'?: string | null;
-	'create-drive-path'?: string | null;
-	'enable-wallpaper'?: string | null;
-	'enable-theming'?: string | null;
-	'enable-font-smoothing'?: string | null;
-	'enable-full-window-drag'?: string | null;
-	'enable-desktop-composition'?: string | null;
-	'enable-menu-animations'?: string | null;
-	'disable-bitmap-caching'?: string | null;
-	'disable-offscreen-caching'?: string | null;
-	'disable-glyph-caching'?: string | null;
-	'preconnection-id'?: string | null;
-	hostname?: string | null;
-	username?: string | null;
-	password?: string | null;
-	domain?: string | null;
-	'gateway-hostname'?: string | null;
-	'gateway-username'?: string | null;
-	'gateway-password'?: string | null;
-	'gateway-domain'?: string | null;
-	'initial-program'?: string | null;
-	'client-name'?: string | null;
-	'printer-name'?: string | null;
-	'drive-name'?: string | null;
-	'drive-path'?: string | null;
-	'static-channels'?: string | null;
-	'remote-app'?: string | null;
-	'remote-app-dir'?: string | null;
-	'remote-app-args'?: string | null;
-	'preconnection-blob'?: string | null;
-	'load-balance-info'?: string | null;
-	'recording-path'?: string | null;
-	'recording-name'?: string | null;
-	'sftp-hostname'?: string | null;
-	'sftp-host-key'?: string | null;
-	'sftp-username'?: string | null;
-	'sftp-password'?: string | null;
-	'sftp-private-key'?: string | null;
-	'sftp-passphrase'?: string | null;
-	'sftp-root-directory'?: string | null;
-	'sftp-directory'?: string | null;
-};
-
-type TelnetConnectionParameters = {
-	port?: string | null;
-	'read-only'?: string | null;
-	'swap-red-blue'?: string | null;
-	cursor?: string | null;
-	'color-depth'?: string | null;
-	'clipboard-encoding'?: string | null;
-	'disable-copy'?: string | null;
-	'disable-paste'?: string | null;
-	'dest-port'?: string | null;
-	'recording-exclude-output'?: string | null;
-	'recording-exclude-mouse'?: string | null;
-	'recording-include-keys'?: string | null;
-	'create-recording-path'?: string | null;
-	'enable-sftp'?: string | null;
-	'sftp-port'?: string | null;
-	'sftp-server-alive-interval'?: string | null;
-	'enable-audio'?: string | null;
-	'color-scheme'?: string | null;
-	'font-size'?: string | null;
-	scrollback?: string | null;
-	backspace?: string | null;
-	'terminal-type'?: string | null;
-	'create-typescript-path'?: string | null;
-	hostname?: string | null;
-	username?: string | null;
-	password?: string | null;
-	'username-regex'?: string | null;
-	'password-regex'?: string | null;
-	'login-success-regex'?: string | null;
-	'login-failure-regex'?: string | null;
-	'font-name'?: string | null;
-	'typescript-path'?: string | null;
-	'typescript-name'?: string | null;
-	'recording-path'?: string | null;
-	'recording-name'?: string | null;
-};
-
-type ConnectionGroupAttributes = {
-	'max-connections'?: string | null;
-	'max-connections-per-user'?: string | null;
-	'enable-session-affinity'?: string | null;
-};
+import {
+	ConnectionAttributes,
+	ConnectionGroupAttributes,
+	ConnectionHistory,
+	ConnectionInfo,
+	RDPConnectionParameters,
+	SSHConnectionParameters,
+	SchemaAttributes,
+	SessionOptions,
+	TelnetConnectionParameters,
+	UserAttributes,
+	UserHistory,
+	UserPermissions,
+} from './types';
 
 /**
  * Helper class to create guacamole sessions.
@@ -239,34 +60,41 @@ class Session {
 		return data;
 	};
 
-	private authPatch = async <GenericReturnType>(endpoint: string, patchdata: any) => {
-		const { data } = await axios.patch<GenericReturnType>(`${this.host}${endpoint}`, patchdata, { params: { token: this.token } });
-		return data;
+	private authPatch = async (endpoint: string, patchdata: any) => {
+		const { data } = await axios.patch<''>(`${this.host}${endpoint}`, patchdata, { params: { token: this.token } });
+		return data; // TODO: confirm if patch and delete always return '' as the type (no more need for generic if true)
 	};
 
-	private authDelete = async <GenericReturnType>(endpoint: string) => {
-		const { data } = await axios.delete<GenericReturnType>(`${this.host}${endpoint}`, { params: { token: this.token } });
+	private authDelete = async (endpoint: string) => {
+		const { data } = await axios.delete<''>(`${this.host}${endpoint}`, { params: { token: this.token } });
 		return data;
 	};
 
 	// TODO: add return types
 	// /patches
-	getPatches = async () => await this.authGet(`/api/patches`);
+	getPatches = async () => await this.authGet<string[]>(`/api/patches`);
 
 	// /languages
-	getLanguages = async () => await this.authGet(`/api/languages`);
+	getLanguages = async () => await this.authGet<{ [lang_code: string]: string }>(`/api/languages`);
 
 	// /history
-	getHistoryConnections = async () => await this.authGet(`/api/session/data/${this.datasource}/history/connections`);
+	getHistoryConnections = async () => await this.authGet<ConnectionHistory>(`/api/session/data/${this.datasource}/history/connections`);
 	// TODO: investigate /history/connections/${id}
 
 	// /schema
-	getProtocols = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/protocols`);
-	getUserAttributes = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/userAttributes`);
-	getUserGroupAttributes = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/userGroupAttributes`);
-	getConnectionAttributes = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/connectionAttributes`);
-	getSharingProfileAttributes = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/sharingProfileAttributes`);
-	getConnectionGroupAttributes = async () => await this.authGet(`/api/session/data/${this.datasource}/schema/connectionGroupAttributes`);
+	getProtocols = async () =>
+		await this.authGet<{
+			[conn_type: string]: {
+				name: string;
+				connectionForms: SchemaAttributes[];
+				sharingProfileForms: SchemaAttributes[];
+			};
+		}>(`/api/session/data/${this.datasource}/schema/protocols`);
+	getUserAttributes = async () => await this.authGet<SchemaAttributes[]>(`/api/session/data/${this.datasource}/schema/userAttributes`);
+	getUserGroupAttributes = async () => await this.authGet<SchemaAttributes[]>(`/api/session/data/${this.datasource}/schema/userGroupAttributes`);
+	getConnectionAttributes = async () => await this.authGet<SchemaAttributes[]>(`/api/session/data/${this.datasource}/schema/connectionAttributes`);
+	getSharingProfileAttributes = async () => await this.authGet<SchemaAttributes[]>(`/api/session/data/${this.datasource}/schema/sharingProfileAttributes`);
+	getConnectionGroupAttributes = async () => await this.authGet<SchemaAttributes[]>(`/api/session/data/${this.datasource}/schema/connectionGroupAttributes`);
 
 	// /users
 	getUsers = async () => {
@@ -280,10 +108,11 @@ class Session {
 	};
 	getUser = async (user: string) =>
 		await this.authGet<{ username: string; attributes: UserAttributes; lastActive: number }>(`/api/session/data/${this.datasource}/users/${user}`);
-	getUserUsergroups = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/userGroups`);
-	getUserPermissions = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/permissions`);
-	getUserEffectivePermissions = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/effectivePermissions`);
-	getUserHistory = async (user: string) => await this.authGet(`/api/session/data/${this.datasource}/users/${user}/history`);
+	getUserUsergroups = async (user: string) => await this.authGet<string[]>(`/api/session/data/${this.datasource}/users/${user}/userGroups`);
+	getUserPermissions = async (user: string) => await this.authGet<UserPermissions>(`/api/session/data/${this.datasource}/users/${user}/permissions`);
+	getUserEffectivePermissions = async (user: string) =>
+		await this.authGet<UserPermissions>(`/api/session/data/${this.datasource}/users/${user}/effectivePermissions`);
+	getUserHistory = async (user: string) => await this.authGet<UserHistory>(`/api/session/data/${this.datasource}/users/${user}/history`);
 	deleteUser = async (user: string) => await this.authDelete(`/api/session/data/${this.datasource}/users/${user}`);
 	createUser = async (username: string, password: string, attributes?: UserAttributes) => {
 		return await this.authPost<{
@@ -297,84 +126,86 @@ class Session {
 		});
 	};
 	updateUser = async (username: string, attributes: UserAttributes) => {
-		return await this.authPut(`/api/session/data/${this.datasource}/users/${username}`, {
+		return await this.authPut<''>(`/api/session/data/${this.datasource}/users/${username}`, {
 			username,
 			attributes,
 		});
 	};
 	updateUserPassword = async (username: string, oldPassword: string, newPassword: string) => {
-		return await this.authPut(`/api/session/data/${this.datasource}/users/${username}/password`, {
+		return await this.authPut<''>(`/api/session/data/${this.datasource}/users/${username}/password`, {
 			oldPassword,
 			newPassword,
 		});
 	};
-	updateUserAddUsergroups = async (username: string, groupname: string) => {
-		return await this.authPatch(`/api/session/data/${this.datasource}/users/${username}/userGroups`, {
-			op: 'add',
-			path: '/',
-			value: groupname,
-		});
+	updateUserAddUsergroups = async (username: string, groupnames: string[]) => {
+		return await this.authPatch(
+			`/api/session/data/${this.datasource}/users/${username}/userGroups`,
+			groupnames.map((groupname) => ({ op: 'add', path: '/', value: groupname }))
+		);
 	};
-	updateUserRemoveUsergroups = async (username: string, groupname: string) => {
-		return await this.authPatch(`/api/session/data/${this.datasource}/users/${username}/userGroups`, {
-			op: 'remove',
-			path: '/', // TODO: investigate if this is needed?
-			value: groupname,
-		});
+	updateUserRemoveUsergroups = async (username: string, groupnames: string[]) => {
+		return await this.authPatch(
+			`/api/session/data/${this.datasource}/users/${username}/userGroups`,
+			groupnames.map((groupname) => ({ op: 'remove', path: '/', value: groupname }))
+		);
 	};
 
 	// /self
 	getSelf = async () => await this.authGet<{ username: string; attributes: UserAttributes; lastActive: number }>(`/api/session/data/${this.datasource}/self`);
-	getSelfEffectivePermissions = async () => await this.authGet(`/api/session/data/${this.datasource}/self/effectivePermissions`);
-	getSelfUsergroups = async () => await this.authGet(`/api/session/data/${this.datasource}/self/userGroups`);
+	getSelfEffectivePermissions = async () => await this.authGet<UserPermissions>(`/api/session/data/${this.datasource}/self/effectivePermissions`);
+	getSelfUsergroups = async () => await this.authGet<string[]>(`/api/session/data/${this.datasource}/self/userGroups`);
 
 	// /userGroups
-	getUsergroups = async () => await this.authGet(`/api/session/data/${this.datasource}/userGroups`);
-	getUsergroup = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/userGroups/${id}`);
+	getUsergroups = async () =>
+		await this.authGet<{ [groupname: string]: { identifier: string; attributes: { disabled: any } } }>(`/api/session/data/${this.datasource}/userGroups`);
+	getUsergroup = async (id: string) =>
+		await this.authGet<{ identifier: string; attributes: { disabled: any } }>(`/api/session/data/${this.datasource}/userGroups/${id}`);
 	deleteUsergroup = async (id: string) => await this.authDelete(`/api/session/data/${this.datasource}/userGroups/${id}`);
-	createUsergroup = async (identifier: string, attributes: { disabled?: any } = {}) => {
-		return await this.authPost(`/api/session/data/${this.datasource}/userGroups`, {
+	createUsergroup = async (identifier: string, attributes: { disabled?: boolean } = {}) => {
+		return await this.authPost<{ identifier: string; attributes: { disabled?: any } }>(`/api/session/data/${this.datasource}/userGroups`, {
 			identifier,
 			attributes,
 		});
 	};
-	updateUsergroup = async (identifier: string, attributes: { disabled: any }) => {
-		return await this.authPut(`/api/session/data/${this.datasource}/userGroups/${identifier}`, {
+	updateUsergroup = async (identifier: string, attributes: { disabled: boolean }) => {
+		return await this.authPut<''>(`/api/session/data/${this.datasource}/userGroups/${identifier}`, {
 			identifier,
 			attributes,
 		});
 	};
-	updateUsergroupAddUser = async (username: string, groupname: string) => {
-		return await this.authPatch(`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`, {
-			op: 'add',
-			path: '/',
-			value: username,
-		});
+	updateUsergroupAddUser = async (groupname: string, usernames: string[]) => {
+		return await this.authPatch(
+			`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`,
+			usernames.map((username) => ({ op: 'add', path: '/', value: username }))
+		);
 	};
-	updateUsergroupRemoveUser = async (username: string, groupname: string) => {
-		return await this.authPatch(`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`, {
-			op: 'remove',
-			path: '/',
-			value: username,
-		});
+	updateUsergroupRemoveUser = async (groupname: string, usernames: string[]) => {
+		return await this.authPatch(
+			`/api/session/data/${this.datasource}/userGroups/${groupname}/memberUsers`,
+			usernames.map((username) => ({ op: 'remove', path: '/', value: username }))
+		);
 	};
 
 	// /tunnels
-	getTunnels = async () => await this.authGet(`/api/session/tunnels`);
+	getTunnels = async () => await this.authGet<any[]>(`/api/session/tunnels`);
 
 	// /connections
-	getConnections = async () => await this.authGet(`/api/session/data/${this.datasource}/connections`);
-	getConnection = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}`);
-	getConnectionHistory = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}/history`);
-	getConnectionSharingProfiles = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}/sharingProfiles`);
-	getConnectionParameters = async (id: string) => await this.authGet(`/api/session/data/${this.datasource}/connections/${id}/parameters`);
+	getConnections = async () =>
+		await this.authGet<{
+			[identifier: string]: ConnectionInfo;
+		}>(`/api/session/data/${this.datasource}/connections`);
+	getConnection = async (id: string) => await this.authGet<ConnectionInfo>(`/api/session/data/${this.datasource}/connections/${id}`);
+	getConnectionHistory = async (id: string) => await this.authGet<ConnectionHistory>(`/api/session/data/${this.datasource}/connections/${id}/history`);
+	getConnectionSharingProfiles = async (id: string) =>
+		await this.authGet<{ [profileId: string]: { name: string; identifier: string; primaryConnectionIdentifier: string; attributes: any } }>(
+			`/api/session/data/${this.datasource}/connections/${id}/sharingProfiles`
+		);
+	getConnectionParameters = async (id: string) =>
+		await this.authGet<SSHConnectionParameters | RDPConnectionParameters | TelnetConnectionParameters>(
+			`/api/session/data/${this.datasource}/connections/${id}/parameters`
+		); // TODO: all the other connection parameter types
 	deleteConnection = async (id: number) => await this.authDelete(`/api/session/data/${this.datasource}/connections/${id}`);
-	createSSHConnection = async (
-		name: string,
-		parameters: SSHConnectionParameters = {},
-		attributes: ConnectionAttributes = {},
-		parentIdentifier: string = 'ROOT'
-	) => {
+	createSSHConnection = async (name: string, parameters: SSHConnectionParameters = {}, attributes: ConnectionAttributes = {}, parentIdentifier: string) => {
 		return await this.authPost<{
 			name: string;
 			identifier: string;
@@ -391,12 +222,7 @@ class Session {
 			attributes,
 		});
 	};
-	createRDPConnection = async (
-		name: string,
-		parameters: RDPConnectionParameters = {},
-		attributes: ConnectionAttributes = {},
-		parentIdentifier: string = 'ROOT'
-	) => {
+	createRDPConnection = async (name: string, parameters: RDPConnectionParameters = {}, attributes: ConnectionAttributes = {}, parentIdentifier: string) => {
 		return await this.authPost<{
 			name: string;
 			identifier: string;
@@ -417,7 +243,7 @@ class Session {
 		name: string,
 		parameters: TelnetConnectionParameters = {},
 		attributes: ConnectionAttributes = {},
-		parentIdentifier: string = 'ROOT'
+		parentIdentifier: string
 	) => {
 		// TODO: consider using zod to verify results are what we think they are
 		return await this.authPost<{
@@ -441,7 +267,7 @@ class Session {
 		name: string,
 		parameters: SSHConnectionParameters = {},
 		attributes: ConnectionAttributes = {},
-		parentIdentifier: string = 'ROOT'
+		parentIdentifier: string
 	) => {
 		return await this.authPut<{
 			name: string;
@@ -459,59 +285,186 @@ class Session {
 			attributes,
 		});
 	};
+	updateTelnetConnection = async (
+		id: number,
+		name: string,
+		parameters: TelnetConnectionParameters = {},
+		attributes: ConnectionAttributes = {},
+		parentIdentifier: string
+	) => {
+		return await this.authPut<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			protocol: 'telnet';
+			parameters: TelnetConnectionParameters;
+			attributes: ConnectionAttributes;
+			activeConnections: number;
+		}>(`/api/session/data/${this.datasource}/connections/${id}`, {
+			name,
+			protocol: 'ssh',
+			parentIdentifier,
+			parameters,
+			attributes,
+		});
+	};
+	updateRDPConnection = async (
+		id: number,
+		name: string,
+		parameters: RDPConnectionParameters = {},
+		attributes: ConnectionAttributes = {},
+		parentIdentifier: string
+	) => {
+		return await this.authPut<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			protocol: 'rdp';
+			parameters: RDPConnectionParameters;
+			attributes: ConnectionAttributes;
+			activeConnections: number;
+		}>(`/api/session/data/${this.datasource}/connections/${id}`, {
+			name,
+			protocol: 'ssh',
+			parentIdentifier,
+			parameters,
+			attributes,
+		});
+	};
 
 	// /activeConnections
-	getActiveConnections = async () => await this.authGet(`/api/session/data/${this.datasource}/activeConnections`);
-	getActiveConnection = async () => await this.authGet(`/api/session/data/${this.datasource}/activeConnections`);
+	getActiveConnections = async () =>
+		await this.authGet<{
+			[uuid: string]: {
+				identifier: string;
+				connectionIdentifier: string;
+				startDate: string;
+				remoteHost: string;
+				username: string;
+				connectable: boolean;
+			};
+		}>(`/api/session/data/${this.datasource}/activeConnections`);
+	killActiveConnections = async (identifiers: string[]) =>
+		await this.authPatch(
+			`/api/session/data/${this.datasource}/activeConnections`,
+			identifiers.map((id) => ({
+				op: 'remove',
+				path: `/${id}`,
+			}))
+		);
 
 	// /sharingProfile
-	getSharingProfiles = async () => await this.authGet(`/api/session/data/${this.datasource}/sharingProfiles`);
-	getSharingProfile = async (sharingId: number) => await this.authGet(`/api/session/data/${this.datasource}/sharingProfiles/${sharingId}`);
-	getSharingProfileParameters = async (sharingId: number) => await this.authGet(`/api/session/data/${this.datasource}/sharingProfiles/${sharingId}/parameters`);
+	getSharingProfiles = async () =>
+		await this.authGet<{
+			[identifier: string]: {
+				name: string;
+				identifier: string;
+				primaryConnectionIdentifier: string;
+				attributes: any;
+			};
+		}>(`/api/session/data/${this.datasource}/sharingProfiles`);
+	getSharingProfile = async (sharingId: number) =>
+		await this.authGet<{
+			name: string;
+			identifier: string;
+			primaryConnectionIdentifier: string;
+			attributes: any;
+		}>(`/api/session/data/${this.datasource}/sharingProfiles/${sharingId}`);
+	getSharingProfileParameters = async (sharingId: number) =>
+		await this.authGet<{ [parameter: string]: any }>(`/api/session/data/${this.datasource}/sharingProfiles/${sharingId}/parameters`);
 	deleteSharingProfile = async (id: number) => await this.authDelete(`/api/session/data/${this.datasource}/sharingProfiles/${id}`);
 	createSharingProfile = async (name: string, connectionId: number, readonly: boolean) => {
-		return await this.authPost(`/api/session/data/${this.datasource}/sharingProfiles`, {
+		return await this.authPost<{
+			name: string;
+			identifier: string;
+			primaryConnectionIdentifier: string;
+			parameters: { 'read-only': string }; // TODO: if this shouldn't be less typed (unsure/unknown what parameters might exist...)
+			attributes: any;
+		}>(`/api/session/data/${this.datasource}/sharingProfiles`, {
 			name,
 			primaryConnectionIdentifier: connectionId,
 			parameters: {
-				'read-only': readonly ? 'true' : '',
+				'read-only': readonly ? 'true' : '', // TODO: determine if this is always the parameter (or just happens to be there during testing ssh connections...)
 			},
 			attributes: {},
 		});
 	};
 
 	// /connectionGroups
-	getConnectionGroups = async () => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups`);
-	getConnectionGroup = async (group: string) => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups/${group}`);
-	getConnectionGroupTree = async (group: string) => await this.authGet(`/api/session/data/${this.datasource}/connectionGroups/${group}/tree`);
-	updateConnectionGroup = async (id: number, name: string, attributes: ConnectionAttributes, parentIdentifier: string = 'ROOT') => {
-		return await this.authPut(`/api/session/data/${this.datasource}/connectionGroups/${id}`, {
+	getConnectionGroups = async () =>
+		await this.authGet<{
+			[identifier: string]: {
+				name: string;
+				identifier: string;
+				parentIdentifier: string;
+				type: string;
+				activeConnections: string;
+				attributes: {
+					'max-connections': any;
+					'max-connections-per-user': any;
+					'enable-session-affinity': string; // TODO: determine if some of the strings "true" can be safely 'typed' as true booleans when using the api
+				};
+			};
+		}>(`/api/session/data/${this.datasource}/connectionGroups`);
+	getConnectionGroup = async (groupId: string) =>
+		await this.authGet<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			type: string;
+			activeConnections: string;
+			attributes: {
+				'max-connections': any;
+				'max-connections-per-user': any;
+				'enable-session-affinity': string; // TODO: determine if some of the strings "true" can be safely 'typed' as true booleans when using the api
+			};
+		}>(`/api/session/data/${this.datasource}/connectionGroups/${groupId}`);
+	// TODO: this function returns identical information as getConnectionGroup
+	getConnectionGroupTree = async (group: string) =>
+		await this.authGet<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			type: string;
+			activeConnections: string;
+			attributes: {
+				'max-connections': any;
+				'max-connections-per-user': any;
+				'enable-session-affinity': string;
+			};
+		}>(`/api/session/data/${this.datasource}/connectionGroups/${group}/tree`);
+	updateConnectionGroup = async (id: number, name: string, attributes: ConnectionGroupAttributes, parentIdentifier: string) => {
+		return await this.authPut<''>(`/api/session/data/${this.datasource}/connectionGroups/${id}`, {
+			name,
+			parentIdentifier,
+			type: 'ORGANIZATIONAL',
+			attributes,
+		});
+	};
+	createConnectionGroup = async (name: string, attributes: ConnectionGroupAttributes, parentIdentifier: string) => {
+		return await this.authPost<{
+			name: string;
+			identifier: string;
+			parentIdentifier: string;
+			type: string;
+			activeConnections: number;
+			attributes: any;
+		}>(`/api/session/data/${this.datasource}/connectionGroups`, {
 			name,
 			parentIdentifier,
 			type: 'ORGANIZATIONAL', // TODO: also could do 'balancing'
 			attributes,
 		});
 	};
-	createConnectionGroup = async (name: string, attributes: ConnectionGroupAttributes, parentIdentifier: string = 'ROOT') => {
-		return await this.authPost(`/api/session/data/${this.datasource}/connectionGroups`, {
-			name,
-			parentIdentifier,
-			type: 'ORGANIZATIONAL', // TODO: also could do 'balancing'
-			attributes,
-		});
+	deleteConnectionGroup = async (groupId: string) => {
+		return await this.authDelete(`/api/session/data/${this.datasource}/connectionGroups/${groupId}`);
 	};
 
 	/////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////
 	/////////////////////////////////////////////////////////////////////
 
-	detail_tunnels = async (tunId: number) => await this.authGet(`/api/session/tunnels/${tunId}/activeConnection/connection/sharingProfiles`);
-	kill_active_connection = async (connection_id: string) => {
-		return await this.authPatch(`/api/session/data/${this.datasource}/activeConnections`, {
-			op: 'remove',
-			path: `/${connection_id}`,
-		});
-	};
+	// detail_tunnels = async (tunId: number) => await this.authGet(`/api/session/tunnels/${tunId}/activeConnection/connection/sharingProfiles`);
 
 	// TODO: the rest of these...(and possibly more not known about...)
 	// and document things that have changed / no longer available
