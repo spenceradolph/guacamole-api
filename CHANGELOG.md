@@ -1,5 +1,11 @@
 # guacamole-api
 
+## 0.1.0
+
+### Minor Changes
+
+- 54de7c3: Full api (mostly), all functions typed
+
 ## 0.0.5
 
 ### Patch Changes
